@@ -81,7 +81,6 @@ const particlesOptions = {
 }
 
 
-
 const initialState = {
   input: '',
   imageUrl: '',
@@ -130,45 +129,18 @@ calculateFaceLocation = (data) => {
   }
 }
 
-/* how to get the celebrity name to show??
-calculateFaceName = (response) => {
-  const faceName = response.outputs[0].data.regions[0].data.concepts[0];
-  console.log('faceName ran');
-  this.setState({name: name});
+
+displayFaceBox = (box) => {
+  this.setState({box: box});
 }
-
-or
-
-calculateFaceName = (data) => {
-  const faceName = data.outputs[0].data.regions[0].data.concepts;
-    this.setState({faceName}) 
-}
-
-or
-
-calculateFaceName = (data) => {
-  const clarafaiName = data.outputs[0].data.regions[0].data.concepts[0].name;
-  return {
-    clarafaiName
-  }
-
-displayFaceName = (faceName) => {
-  this.setState({name: faceName})
-  }
-*/
+/*
 
 calculateFaceName = (data) => {
   const faceName = data.outputs[0].data.regions[0].data.concepts;
   console.log('faceName ran');
   this.setState({name: faceName});
 }
-
-
-
-displayFaceBox = (box) => {
-  this.setState({box: box});
-}
-
+*/
 
   onInputChange = (event) => {
     this.setState({input: event.target.value});
@@ -183,8 +155,6 @@ displayFaceBox = (box) => {
       .then(celebrityModel => {
         return celebrityModel.predict(this.state.input);
       })
-      .then(response => this.setState({faceName: response.outputs[0].data.regions[0].data.concepts[0].name})) //I would comment this line out to test
-
 
       .then(response => {
         if (response) {
@@ -195,32 +165,19 @@ displayFaceBox = (box) => {
               id: this.state.user.id
             })
           })
-
             .then(response => response.json())
             .then(count => {
-              this.setState(Object.assign(this.state.user, { entries: count}))
+              this.setState(Object.assign(this.state.user, { entries: count}, ({faceName: response.outputs[0].data.regions[0].data.concepts[0].name})))
             })
-
-            
-
             .catch(console.log)
         }
 
-
         this.displayFaceBox(this.calculateFaceLocation(response));
         //const concepts = response['outputs'][0]['data']['concepts']
-         console.log(response.outputs[0].data.regions[0].data.concepts[0]/*.region_info.bounding_box*/);    
-         
-         
-      
-
+        // console.log(response.outputs[0].data.regions[0].data.concepts[0]/*.region_info.bounding_box*/);    
       })
-
-      
-
      .catch(err => console.log(err));
 }
-
 
 
 onRouteChange = (route) => {
@@ -231,9 +188,6 @@ onRouteChange = (route) => {
   }
     this.setState({route: route});
 }
-
-
-
 
 
 
@@ -267,7 +221,6 @@ onRouteChange = (route) => {
                   imageUrl={imageUrl}
                 />
              </div>
-         
          
          /*wth is this below?*/
          : (
