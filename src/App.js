@@ -158,7 +158,7 @@ calculateFaceName = (data) => {
 
       .then(response => {
         if (response) {
-          fetch('http://localhost:3001/image', {
+          fetch('https://powerful-sierra-79006.herokuapp.com/image', {
             method: 'put',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
